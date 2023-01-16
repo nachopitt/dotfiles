@@ -2,3 +2,32 @@
 dotfiles
 
 https://www.ackama.com/what-we-think/the-best-way-to-store-your-dotfiles-a-bare-git-repository-explained/
+
+Steps:
+
+To install in current setup:
+git clone git@github.com:nachopitt/dotfiles.git $HOME/.cfg
+
+To create a "config" alias to be used instead of the git command for all git related operations:
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/.git/ --work-tree=$HOME'
+
+To see changes in the working tree
+config status
+
+To avoid showing up the untracked files when performing operations such as "config status"
+config config --local status.showUntrackedFiles no
+
+To pull new changes:
+config pull
+
+To see differences:
+config diff
+
+To add changes to the staging area:
+config add files...
+
+To commit changes:
+config commit
+
+To push changes:
+config push
