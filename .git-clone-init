@@ -1,0 +1,8 @@
+#!/bin/bash
+
+case "$url" in
+    *@github.com:*  ) email="nachopitt@gmail.com";    name="nachopitt";;
+    *//github.com/* ) email="nachopitt@gmail.com";    name="nachopitt";;
+    *@github.geo.conti.de:*    ) email="Ignacio.2.Zamora@continental-corporation.com"; name="ZAMORA ESQUEDA IGNACIO ALBERTO (uidr7643)";;
+    *//github.geo.conti.de/*   ) email="Ignacio.2.Zamora@continental-corporation.com"; name="ZAMORA ESQUEDA IGNACIO ALBERTO (uidr7643)";;
+esac
