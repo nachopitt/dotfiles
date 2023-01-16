@@ -180,6 +180,10 @@ nnoremap <silent> <leader>rs :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar
 " https://idie.ru/posts/vim-modern-cpp/
 au FileType cpp nnoremap <buffer>K :JbzCppMan<CR>
 
+" Toggle Background Function
+" https://github.com/altercation/vim-colors-solarized
+call togglebg#map("<F5>")
+
 " }}}
 
 " VIMSCRIPT -------------------------------------------------------------- {{{
