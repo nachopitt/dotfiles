@@ -163,9 +163,9 @@ call plug#end()
 " COLOR SCHEMES ---------------------------------------------------------- {{{
 " Vim Colors Solarized
 " https://github.com/altercation/vim-colors-solarized
-" set background=light
 set background=dark
-" let g:solarized_termcolors=256
+" set background=light
+let g:solarized_termcolors=256
 colorscheme solarized
 
 " }}}
