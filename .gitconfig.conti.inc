@@ -1,0 +1,17 @@
+[user]
+    email = Ignacio.2.Zamora@continental-corporation.com
+    name = ZAMORA ESQUEDA IGNACIO ALBERTO (uidr7643)
+#[http]
+#    proxy = 127.0.0.1:3128
+#[https]
+#    proxy = 127.0.0.1:3128
+[core]
+#    gitProxy = /home/uidr7643/bin/gitproxy
+#[url "https://github.com/"]
+#    insteadOf = git@github.com:
+#[url "https://"]
+#    insteadOf = git://
+[url "https://github.com/"]
+    insteadOf = git://github.com/
+[url "https://git.yoctoproject.org/git/"]
+    insteadOf = git://git.yoctoproject.org/

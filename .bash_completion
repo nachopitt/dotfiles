@@ -1,0 +1,5 @@
+#!/bin/bash
+
+. $HOME/env/complete-alias/complete_alias
+
+complete -F _complete_alias config

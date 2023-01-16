@@ -1,0 +1,21 @@
+[filter "lfs"]
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+[core]
+    eol = lf
+    autocrlf = input
+    editor = vim
+    filemode = false
+[color]
+    ui = auto
+[sendemail]
+    smtpserver = mail.example.org
+    smtpuser = nachopitt@gmail.com
+    smtpencryption = ssl
+    smtpserverport = 465
+[includeIf "hasconfig:remote.*.url:https://github.geo.conti.de/**"]
+    path = .gitconfig.conti.inc
+[init]
+    templatedir = ~/.git-templates
