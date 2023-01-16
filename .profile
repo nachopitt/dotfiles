@@ -30,6 +30,9 @@ fi
 # COLORTERM is not available in Windows Terminal WSL2 Ubuntu 20.04
 export COLORTERM=truecolor
 
+# load dircolors
+eval `dircolors ~/.dircolors`
+
 PATH="/opt/cross/5.3.1_Conti/armv7-conti-linux-gnueabi/bin/:$PATH"
 PATH="/opt/cross/7.4.1_Linaro/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf/bin/:$PATH"
 
