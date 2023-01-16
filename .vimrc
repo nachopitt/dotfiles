@@ -1,3 +1,17 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"
+"               ██╗   ██╗██╗███╗   ███╗██████╗  ██████╗
+"               ██║   ██║██║████╗ ████║██╔══██╗██╔════╝
+"               ██║   ██║██║██╔████╔██║██████╔╝██║
+"               ╚██╗ ██╔╝██║██║╚██╔╝██║██╔══██╗██║
+"                ╚████╔╝ ██║██║ ╚═╝ ██║██║  ██║╚██████╗
+"                 ╚═══╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" OPTIONS ---------------------------------------------------------------- {{{
+" https://www.freecodecamp.org/news/vimrc-configuration-guide-customize-your-vim-editor/
+
 " Disable compatibility with vi which can cause unexpected issues.
 set nocompatible
 
@@ -80,10 +94,9 @@ set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
 " The default value should be set ttimeoutlen=100
 set ttimeoutlen=100
 
-" Fix the difficult-to-read default setting for diff text highlighting.  The
-" bang (!) is required since we are overwriting the DiffText setting. The highlighting
-" for "Todo" also looks nice (yellow) if you don't like the "MatchParen" colors.
-highlight! link DiffText MatchParen
+" }}}
+
+" PLUGINS ---------------------------------------------------------------- {{{
 
 " vim-plug: A minimalist Vim plugin manager.
 " https://github.com/junegunn/vim-plug
@@ -145,14 +158,52 @@ call plug#end()
 "   filetype indent off   " Disable file-type-specific indentation
 "   syntax off            " Disable syntax highlighting
 
+" }}}
+
+" COLOR SCHEMES ---------------------------------------------------------- {{{
 " Vim Colors Solarized
+" https://github.com/altercation/vim-colors-solarized
 " set background=light
 set background=dark
 " let g:solarized_termcolors=256
 colorscheme solarized
 
+" }}}
+
+" MAPPINGS --------------------------------------------------------------- {{{
+
+" Remove all trailing whitespaces
+" https://idie.ru/posts/vim-modern-cpp/
+nnoremap <silent> <leader>rs :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR>
+
+" Accessing Standard Library documentation using cppman, use JbzCppMan function
+" https://idie.ru/posts/vim-modern-cpp/
+au FileType cpp nnoremap <buffer>K :JbzCppMan<CR>
+
+" }}}
+
+" VIMSCRIPT -------------------------------------------------------------- {{{
+
+" Fix the difficult-to-read default setting for diff text highlighting.  The
+" bang (!) is required since we are overwriting the DiffText setting. The highlighting
+" for "Todo" also looks nice (yellow) if you don't like the "MatchParen" colors.
+" https://stackoverflow.com/questions/2019281/load-different-colorscheme-when-using-vimdiff
+highlight! link DiffText MatchParen
+
+" This will enable code folding.
+" Use the marker method of folding.
+" https://www.freecodecamp.org/news/vimrc-configuration-guide-customize-your-vim-editor/
+augroup filetype_vim
+    autocmd!
+    autocmd FileType vim setlocal foldmethod=marker
+augroup END
+
+" Man page viewer
+" https://stackoverflow.com/questions/16740246/what-is-a-way-to-read-man-pages-in-vim-without-using-temporary-files
 runtime ftplugin/man.vim
 
+" Removing trailing whitespaces
+" https://idie.ru/posts/vim-modern-cpp/
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
 au BufWinEnter * match ExtraWhitespace /\s\+$/
@@ -160,9 +211,8 @@ au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 au InsertLeave * match ExtraWhitespace /\s\+$/
 au BufWinLeave * call clearmatches()
 
-" Remove all trailing whitespaces
-nnoremap <silent> <leader>rs :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR>
-
+" Accessing Standard Library documentation using cppman
+" https://idie.ru/posts/vim-modern-cpp/
 function! s:JbzCppMan()
     let old_isk = &iskeyword
     setl iskeyword+=:
@@ -172,4 +222,4 @@ function! s:JbzCppMan()
 endfunction
 command! JbzCppMan :call s:JbzCppMan()
 
-au FileType cpp nnoremap <buffer>K :JbzCppMan<CR>
+" }}}
