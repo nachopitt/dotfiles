@@ -27,11 +27,21 @@ if [ -d "$HOME/.local/bin" ] ; then
 fi
 
 ### Exports
-# COLORTERM is not available in Windows Terminal WSL2 Ubuntu 20.04
-export COLORTERM=truecolor
 
-# load dircolors
-eval `dircolors ~/.dircolors`
+# So "tput colors" outputs 24 bit colors or 16777216
+# export TERM=xterm-direct
+
+# COLORTERM is not available in Windows Terminal WSL2 Ubuntu 20.04
+# export COLORTERM=truecolor
+
+case $TERM in
+  iterm            |\
+  linux-truecolor  |\
+  screen-truecolor |\
+  tmux-truecolor   |\
+  xterm-truecolor  )    export COLORTERM=truecolor ;;
+  vte*)
+esac
 
 PATH="/opt/cross/5.3.1_Conti/armv7-conti-linux-gnueabi/bin/:$PATH"
 PATH="/opt/cross/7.4.1_Linaro/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf/bin/:$PATH"
