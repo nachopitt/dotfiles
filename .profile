@@ -51,11 +51,6 @@ PATH="/opt/cross/7.4.1_Linaro/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabih
 
 wsl.exe -d wsl-vpnkit --cd /app service wsl-vpnkit start
 
-### Aliases
-# The best way to store your dotfiles: A bare Git repository
-# https://www.ackama.com/what-we-think/the-best-way-to-store-your-dotfiles-a-bare-git-repository-explained/
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-
 ### Conti
 PATH="$PATH:$HOME/scripts:$HOME/scripts/sync"
 # -----------------------------------------------------------
