@@ -32,7 +32,7 @@ fi
 export LC_ALL="C.UTF-8"
 
 # So "tput colors" outputs 24 bit colors or 16777216
-export TERM=xterm-direct
+# export TERM=xterm-direct
 
 # COLORTERM is not available in Windows Terminal WSL2 Ubuntu 20.04
 # export COLORTERM=truecolor
