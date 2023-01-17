@@ -15,7 +15,9 @@
     smtpuser = nachopitt@gmail.com
     smtpencryption = ssl
     smtpserverport = 465
-[includeIf "hasconfig:remote.*.url:https://github.geo.conti.de/**"]
-    path = .gitconfig.conti.inc
 [init]
     templatedir = ~/.git-templates
+[includeIf "hasconfig:remote.*.url:https://github.geo.conti.de/**"]
+    path = ~/.gitconfig.conti
+[includeIf "hasconfig:remote.*.url:git@github.geo.conti.de*/**"]
+    path = ~/.gitconfig.conti
