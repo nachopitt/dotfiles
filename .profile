@@ -12,7 +12,7 @@
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
     if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
+        . "$HOME/.bashrc"
     fi
 fi
 
@@ -32,18 +32,19 @@ fi
 export LC_ALL="C.UTF-8"
 
 # So "tput colors" outputs 24 bit colors or 16777216
-# export TERM=xterm-direct
+export TERM=xterm-direct
 
 # COLORTERM is not available in Windows Terminal WSL2 Ubuntu 20.04
 # export COLORTERM=truecolor
 
 case $TERM in
-  iterm            |\
-  linux-truecolor  |\
-  screen-truecolor |\
-  tmux-truecolor   |\
-  xterm-truecolor  )    export COLORTERM=truecolor ;;
-  vte*)
+    iterm               |\
+    linux-truecolor     |\
+    screen-truecolor    |\
+    tmux-truecolor      |\
+    xterm-truecolor     |\
+    xterm-direct        )   export COLORTERM=truecolor ;;
+    vte*)
 esac
 
 PATH="/opt/cross/5.3.1_Conti/armv7-conti-linux-gnueabi/bin/:$PATH"
