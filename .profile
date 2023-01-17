@@ -47,13 +47,35 @@ case $TERM in
     vte*)
 esac
 
-PATH="/opt/cross/5.3.1_Conti/armv7-conti-linux-gnueabi/bin/:$PATH"
-PATH="/opt/cross/7.4.1_Linaro/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf/bin/:$PATH"
+function TQLA337W {
+    echo "ENV IS WSL2: TQLA337W"
 
-wsl.exe -d wsl-vpnkit --cd /app service wsl-vpnkit start
+    PATH="/opt/cross/5.3.1_Conti/armv7-conti-linux-gnueabi/bin/:$PATH"
+    PATH="/opt/cross/7.4.1_Linaro/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf/bin/:$PATH"
 
-### Conti
-PATH="$PATH:$HOME/scripts:$HOME/scripts/sync"
+#    wsl.exe -d wsl-vpnkit --cd /app service wsl-vpnkit start
+}
+
+function fps211un {
+    echo "ENV IS BUILDSERVER: fps211un"
+
+    PATH="$PATH:$HOME/scripts:$HOME/scripts/sync"
+}
+
+function nachopitt-pc {
+    echo "ENV IS WSL2: nachopitt-pc"
+}
+
+if [ "$NAME" = "TQLA337W" ]; then
+    TQLA337W
+elif [ "$NAME" = "fps211un" ]; then
+    fps211un
+elif [ "$NAME" = "nachopitt-pc" ]; then
+    nachopitt-pc
+else
+    echo "ENV IS UNKNOWN: ${NAME}"
+fi
+
 # -----------------------------------------------------------
 # Setup ssh-agent
 # -----------------------------------------------------------
