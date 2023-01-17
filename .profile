@@ -28,6 +28,9 @@ fi
 
 ### Exports
 
+# https://askubuntu.com/questions/162391/how-do-i-fix-my-locale-issue
+export LC_ALL="en_US.UTF-8"
+
 # So "tput colors" outputs 24 bit colors or 16777216
 # export TERM=xterm-direct
 
