@@ -138,7 +138,7 @@ case $TERM in
 esac
 
 function TQLA337W {
-    echo "ENV IS WSL2: $1"
+    echo "Environment is VM/WSL2: $1"
 
     PATH="/opt/cross/5.3.1_Conti/armv7-conti-linux-gnueabi/bin/:$PATH"
     PATH="/opt/cross/7.4.1_Linaro/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf/bin/:$PATH"
@@ -147,17 +147,17 @@ function TQLA337W {
 }
 
 function fps211un {
-    echo "ENV IS BUILDSERVER: $1"
+    echo "Environment is BUILD-SERVER: $1"
 
     PATH="$PATH:$HOME/scripts:$HOME/scripts/sync"
 }
 
 function nachopitt-pc {
-    echo "ENV IS WSL2: $1"
+    echo "Environment is VM/WSL2: $1"
 }
 
 function unknown {
-    echo "ENV IS UNKNOWN: $1"
+    echo "Environment is UNKNOWN: $1"
 }
 
 hostname=$(hostname)
