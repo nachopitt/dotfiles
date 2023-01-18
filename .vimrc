@@ -172,6 +172,13 @@ colorscheme solarized
 
 " MAPPINGS --------------------------------------------------------------- {{{
 
+" Mapleader will allow you set a key unused by Vim as the <leader> key.
+" The leader key, in conjunction with another key, will allow you to create new shortcuts.
+let mapleader = "\\"
+
+" Toggle search highlighting by pressing \\
+nnoremap <leader>\ :set hlsearch! hlsearch?<CR>
+
 " Remove all trailing whitespaces
 " https://idie.ru/posts/vim-modern-cpp/
 nnoremap <silent> <leader>rs :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR>
