@@ -151,6 +151,11 @@ Plug 'editorconfig/editorconfig-vim'
 " https://github.com/altercation/vim-colors-solarized
 Plug 'altercation/vim-colors-solarized'
 
+" fugitive.vim
+" Fugitive is the premier Vim plugin for Git. Or maybe it's the premier Git plugin for Vim?
+" Either way, it's "so awesome, it should be illegal". That's why it's called Fugitive.
+" https://github.com/tpope/vim-fugitive
+Plug 'tpope/vim-fugitive'
 " Initialize plugin system
 " - Automatically executes `filetype plugin indent on` and `syntax enable`.
 call plug#end()
@@ -190,6 +195,12 @@ au FileType cpp nnoremap <buffer>K :JbzCppMan<CR>
 " Toggle Background Function
 " https://github.com/altercation/vim-colors-solarized
 call togglebg#map("<F5>")
+
+" Fugitive Conflict Resolution
+" https://medium.com/prodopsio/solving-git-merge-conflicts-with-vim-c8a8617e3633
+nnoremap <leader>gd :Gvdiff<CR>
+nnoremap gdh :diffget //2<CR>
+nnoremap gdl :diffget //3<CR>
 
 " }}}
 
