@@ -1,3 +1,6 @@
+[user]
+    email = nachopitt@gmail.com
+    name = nachopitt
 [filter "lfs"]
     required = true
     clean = git-lfs clean -- %f
