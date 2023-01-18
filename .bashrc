@@ -138,7 +138,7 @@ case $TERM in
 esac
 
 function TQLA337W {
-    echo "ENV IS WSL2: TQLA337W"
+    echo "ENV IS WSL2: $1"
 
     PATH="/opt/cross/5.3.1_Conti/armv7-conti-linux-gnueabi/bin/:$PATH"
     PATH="/opt/cross/7.4.1_Linaro/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf/bin/:$PATH"
@@ -147,24 +147,35 @@ function TQLA337W {
 }
 
 function fps211un {
-    echo "ENV IS BUILDSERVER: fps211un"
+    echo "ENV IS BUILDSERVER: $1"
 
     PATH="$PATH:$HOME/scripts:$HOME/scripts/sync"
 }
 
 function nachopitt-pc {
-    echo "ENV IS WSL2: nachopitt-pc"
+    echo "ENV IS WSL2: $1"
 }
 
-if [ "$NAME" = "TQLA337W" ]; then
-    TQLA337W
-elif [ "$NAME" = "fps211un" ]; then
-    fps211un
-elif [ "$NAME" = "nachopitt-pc" ]; then
-    nachopitt-pc
-else
-    echo "ENV IS UNKNOWN: ${NAME}"
-fi
+function unknown {
+    echo "ENV IS UNKNOWN: $1"
+}
+
+hostname=$(hostname)
+
+case "$hostname" in
+    "TQLA337W" | "TQLA337W-ubuntu")
+        TQLA337W $hostname
+        ;;
+    "fps211un")
+        fps211un $hostname
+        ;;
+    "nachopitt-pc" | "nachopitt-pc-ubuntu")
+        nachopitt-pc $hostname
+        ;;
+    *)
+        unknown $hostname
+        ;;
+esac
 
 # -----------------------------------------------------------
 # Setup ssh-agent
