@@ -8,6 +8,46 @@ case $- in
       *) return;;
 esac
 
+function TQLA337W {
+    echo "Environment is VM/WSL2: $1"
+
+    PATH="/opt/cross/5.3.1_Conti/armv7-conti-linux-gnueabi/bin/:$PATH"
+    PATH="/opt/cross/7.4.1_Linaro/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf/bin/:$PATH"
+
+#    wsl.exe -d wsl-vpnkit --cd /app service wsl-vpnkit start
+}
+
+function fps211un {
+    echo "Environment is BUILD-SERVER: $1"
+    export TERM=xterm-256color
+    PATH="$PATH:$HOME/scripts:$HOME/scripts/sync"
+}
+
+function nachopitt-pc {
+    echo "Environment is VM/WSL2: $1"
+}
+
+function unknown {
+    echo "Environment is UNKNOWN: $1"
+}
+
+hostname=$(hostname)
+
+case "$hostname" in
+    "TQLA337W" | "TQLA337W-ubuntu")
+        TQLA337W $hostname
+        ;;
+    "fps211un")
+        fps211un $hostname
+        ;;
+    "nachopitt-pc" | "nachopitt-pc-ubuntu")
+        nachopitt-pc $hostname
+        ;;
+    *)
+        unknown $hostname
+        ;;
+esac
+
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
@@ -135,46 +175,6 @@ case $TERM in
     xterm-truecolor     |\
     xterm-direct        )   export COLORTERM=truecolor ;;
     vte*)
-esac
-
-function TQLA337W {
-    echo "Environment is VM/WSL2: $1"
-
-    PATH="/opt/cross/5.3.1_Conti/armv7-conti-linux-gnueabi/bin/:$PATH"
-    PATH="/opt/cross/7.4.1_Linaro/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf/bin/:$PATH"
-
-#    wsl.exe -d wsl-vpnkit --cd /app service wsl-vpnkit start
-}
-
-function fps211un {
-    echo "Environment is BUILD-SERVER: $1"
-
-    PATH="$PATH:$HOME/scripts:$HOME/scripts/sync"
-}
-
-function nachopitt-pc {
-    echo "Environment is VM/WSL2: $1"
-}
-
-function unknown {
-    echo "Environment is UNKNOWN: $1"
-}
-
-hostname=$(hostname)
-
-case "$hostname" in
-    "TQLA337W" | "TQLA337W-ubuntu")
-        TQLA337W $hostname
-        ;;
-    "fps211un")
-        fps211un $hostname
-        ;;
-    "nachopitt-pc" | "nachopitt-pc-ubuntu")
-        nachopitt-pc $hostname
-        ;;
-    *)
-        unknown $hostname
-        ;;
 esac
 
 # -----------------------------------------------------------
