@@ -112,6 +112,9 @@ xterm*|rxvt*)
     ;;
 esac
 
+# This is needed to list first the hidden files and then the non-hidden files
+alias ls='LC_COLLATE=C.UTF-8 ls'
+
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -159,7 +162,7 @@ fi
 ### Exports
 
 # https://askubuntu.com/questions/162391/how-do-i-fix-my-locale-issue
-export LC_ALL="C.UTF-8"
+# export LC_ALL="C.UTF-8"
 
 # So "tput colors" outputs 24 bit colors or 16777216
 # export TERM=xterm-direct
