@@ -98,9 +98,15 @@ set ttimeoutlen=100
 
 " PLUGINS ---------------------------------------------------------------- {{{
 
+if has('win32')
+        let $MYPLUGDIRECTORY = "~/vimfiles/plugged"
+else
+        let $MYPLUGDIRECTORY = "~/.vim/plugged"
+endif
+
 " vim-plug: A minimalist Vim plugin manager.
 " https://github.com/junegunn/vim-plug
-call plug#begin()
+call plug#begin($MYPLUGDIRECTORY)
 " The default plugin directory will be as follows:
 "   - Vim (Linux/macOS): '~/.vim/plugged'
 "   - Vim (Windows): '~/vimfiles/plugged'
