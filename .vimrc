@@ -172,12 +172,19 @@ call plug#end()
 " }}}
 
 " COLOR SCHEMES ---------------------------------------------------------- {{{
-" Vim Colors Solarized
-" https://github.com/altercation/vim-colors-solarized
 set background=dark
 " set background=light
+set termguicolors
+
+" Vim Colors Solarized
+" https://github.com/altercation/vim-colors-solarized
 " let g:solarized_termcolors=256
-colorscheme solarized
+" colorscheme solarized
+
+" Selenized
+" https://github.com/jan-warchol/selenized
+colorscheme selenized
+" let g:selenized_green_keywords=1
 
 " }}}
 
