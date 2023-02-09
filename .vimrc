@@ -162,6 +162,11 @@ Plug 'altercation/vim-colors-solarized'
 " Either way, it's "so awesome, it should be illegal". That's why it's called Fugitive.
 " https://github.com/tpope/vim-fugitive
 Plug 'tpope/vim-fugitive'
+
+" vim-visual-multi
+" It's called vim-visual-multi in analogy with visual-block, but the plugin works mostly from normal mode.
+Plug 'mg979/vim-visual-multi'
+
 " Initialize plugin system
 " - Automatically executes `filetype plugin indent on` and `syntax enable`.
 call plug#end()
