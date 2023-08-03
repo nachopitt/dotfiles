@@ -48,6 +48,12 @@ case "$hostname" in
         ;;
 esac
 
+if [ -z ${SSH_CLIENT+x} ]; then
+    echo "SSH_CLIENT is unset";
+else
+    SSH_CLIENT_IP=${SSH_CLIENT%% *}
+fi
+
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
