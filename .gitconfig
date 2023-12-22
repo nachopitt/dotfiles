@@ -11,6 +11,7 @@
     autocrlf = input
     editor = vim
     filemode = false
+    longpaths = true
 [color]
     ui = auto
 [sendemail]
