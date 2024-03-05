@@ -7,11 +7,7 @@
     smudge = git-lfs smudge -- %f
     process = git-lfs filter-process
 [core]
-    eol = lf
-    autocrlf = input
     editor = vim
-    filemode = false
-    longpaths = true
 [color]
     ui = auto
 [sendemail]
@@ -25,3 +21,7 @@
     path = ~/.gitconfig.conti
 [includeIf "hasconfig:remote.*.url:git@github.geo.conti.de*/**"]
     path = ~/.gitconfig.conti
+[includeIf "gitdir:/home/"]
+    path = ~/.gitconfig.linux
+[includeIf "gitdir:C:"]
+    path = ~/.gitconfig.windows
