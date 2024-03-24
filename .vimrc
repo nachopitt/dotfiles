@@ -165,7 +165,8 @@ Plug 'tpope/vim-fugitive'
 
 " vim-visual-multi
 " It's called vim-visual-multi in analogy with visual-block, but the plugin works mostly from normal mode.
-Plug 'mg979/vim-visual-multi'
+" https://github.com/mg979/vim-visual-multi
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 " Initialize plugin system
 " - Automatically executes `filetype plugin indent on` and `syntax enable`.
