@@ -263,4 +263,14 @@ function! s:JbzCppMan()
 endfunction
 command! JbzCppMan :call s:JbzCppMan()
 
+" Delete all Git conflict markers
+" Creates the command :GremoveConflictMarkers
+" https://vi.stackexchange.com/questions/10534/is-there-a-way-to-take-both-when-using-vim-as-merge-tool
+function! RemoveConflictMarkers() range
+  echom a:firstline.'-'.a:lastline
+  execute a:firstline.','.a:lastline . ' g/^<\{7}\|^|\{7}\|^=\{7}\|^>\{7}/d'
+endfunction
+"-range=% default is whole file
+command! -range=% GremoveConflictMarkers <line1>,<line2>call RemoveConflictMarkers()
+
 " }}}
