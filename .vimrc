@@ -149,6 +149,14 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 " https://github.com/tpope/vim-sensible
 Plug 'tpope/vim-sensible'
 
+" Vim Polyglot: A collection of language packs for Vim.
+" https://github.com/sheerun/vim-polyglot
+Plug 'sheerun/vim-polyglot'
+
+" sleuth.vim: Heuristically set buffer options
+" https://github.com/tpope/vim-sleuth
+Plug 'tpope/vim-sleuth'
+
 " EditorConfig Vim Plugin
 " https://github.com/editorconfig/editorconfig-vim
 Plug 'editorconfig/editorconfig-vim'
