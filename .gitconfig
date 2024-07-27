@@ -21,6 +21,10 @@
     path = ~/.gitconfig.conti
 [includeIf "hasconfig:remote.*.url:git@github.geo.conti.de*/**"]
     path = ~/.gitconfig.conti
+[includeIf "hasconfig:remote.*.url:https://github-vni.geo.conti.de/**"]
+    path = ~/.gitconfig.conti
+[includeIf "hasconfig:remote.*.url:git@github-vni.geo.conti.de*/**"]
+    path = ~/.gitconfig.conti
 [includeIf "gitdir:/home/"]
     path = ~/.gitconfig.linux
 [includeIf "gitdir:C:"]
