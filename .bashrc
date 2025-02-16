@@ -19,7 +19,6 @@ function TQLA337W {
 
 function fps211un {
     echo "Environment is BUILD-SERVER: $1"
-    export TERM=xterm-256color
     PATH="$PATH:$HOME/scripts:$HOME/scripts/sync"
 }
 
