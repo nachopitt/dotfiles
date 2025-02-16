@@ -188,7 +188,12 @@ call plug#end()
 " COLOR SCHEMES ---------------------------------------------------------- {{{
 set background=dark
 " set background=light
-set termguicolors
+
+if exists('+termguicolors')
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+    set termguicolors
+endif
 
 " Vim Colors Solarized
 " https://github.com/altercation/vim-colors-solarized
