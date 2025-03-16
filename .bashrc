@@ -47,6 +47,8 @@ case "$hostname" in
         ;;
 esac
 
+export PATH="$HOME/.local/bin:$PATH"
+
 if [ -z ${SSH_CLIENT+x} ]; then
     echo "SSH_CLIENT is unset";
 else
