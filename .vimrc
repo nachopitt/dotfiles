@@ -176,8 +176,13 @@ Plug 'tpope/vim-fugitive'
 " https://github.com/mg979/vim-visual-multi
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
-" Initialize plugin system
-" - Automatically executes `filetype plugin indent on` and `syntax enable`.
+" Highlight, jump and resolve conflict markers quickly.
+" https://github.com/rhysd/conflict-marker.vim
+" ct, co, cn, cb (theirs, ours, none, both)
+Plug 'rhysd/conflict-marker.vim'
+
+" Call plug#end to update &runtimepath and initialize the plugin system.
+" - It automatically executes `filetype plugin indent on` and `syntax enable`
 call plug#end()
 " You can revert the settings after the call like so:
 "   filetype indent off   " Disable file-type-specific indentation
