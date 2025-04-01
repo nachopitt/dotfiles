@@ -216,7 +216,7 @@ colorscheme selenized
 
 " Mapleader will allow you set a key unused by Vim as the <leader> key.
 " The leader key, in conjunction with another key, will allow you to create new shortcuts.
-let mapleader = "\\"
+let mapleader = "\<space>"
 
 " Toggle search highlighting by pressing \\
 nnoremap <leader>\ :set hlsearch! hlsearch?<CR>
