@@ -29,3 +29,7 @@
     path = ~/.gitconfig.linux
 [includeIf "gitdir:C:"]
     path = ~/.gitconfig.windows
+[diff]
+    tool = vimdiff
+[merge]
+    tool = vimdiff
