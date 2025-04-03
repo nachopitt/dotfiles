@@ -181,6 +181,12 @@ Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 " ct, co, cn, cb (theirs, ours, none, both)
 Plug 'rhysd/conflict-marker.vim'
 
+" fzf/fzf.vim
+" fzf is a general-purpose command-line fuzzy finder.
+" https://github.com/junegunn/fzf
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
 " Call plug#end to update &runtimepath and initialize the plugin system.
 " - It automatically executes `filetype plugin indent on` and `syntax enable`
 call plug#end()
