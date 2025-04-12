@@ -55,27 +55,7 @@ else
     SSH_CLIENT_IP=${SSH_CLIENT%% *}
 fi
 
-#######################################################################
-#                          bash functions                             #
-#######################################################################
-
-bootstrap() {
-    local add_worktree=true
-    local args=("$@")
-
-    for arg in "$@"; do
-        if [[ "$arg" == "-w" ]]; then
-            add_worktree=false
-            break
-        fi
-    done
-
-    if [[ "${args[0]}" == "clone" || "${args[0]}" == "init" ]] && $add_worktree; then
-        args+=("-w" "$PWD")
-    fi
-
-    yadm --yadm-dir "$PWD/.config/yadm" --yadm-data "$PWD/.local/share/yadm" "${args[@]}"
-}
+source "$HOME/.bash_functions"
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
