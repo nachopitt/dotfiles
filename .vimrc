@@ -245,6 +245,10 @@ nnoremap <leader>gd :Gvdiff<CR>
 nnoremap gdh :diffget //2<CR>
 nnoremap gdl :diffget //3<CR>
 
+" Search for visually selected text
+" https://vim.fandom.com/wiki/Search_for_visually_selected_text
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+
 " }}}
 
 " VIMSCRIPT -------------------------------------------------------------- {{{
