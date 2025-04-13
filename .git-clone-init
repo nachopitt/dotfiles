@@ -12,14 +12,14 @@ case "$url" in
 esac
 
 case "$host" in
-    fps210un                ) http_proxy="127.0.0.1:3128"; https_proxy="127.0.0.1:3128";;
-    fps211un                ) http_proxy="127.0.0.1:3128"; https_proxy="127.0.0.1:3128";;
-    ubuntu-virtual-machine  ) http_proxy="127.0.0.1:3128"; https_proxy="127.0.0.1:3128";;
-    VLAS702                 ) http_proxy="127.0.0.1:3128"; https_proxy="127.0.0.1:3128";;
-    vlas722                 ) http_proxy="127.0.0.1:3128"; https_proxy="127.0.0.1:3128";;
-    10.218.231.210  ) http_proxy="127.0.0.1:3128"; https_proxy="127.0.0.1:3128";;
-    10.218.231.211  ) http_proxy="127.0.0.1:3128"; https_proxy="127.0.0.1:3128";;
-    10.218.231.107  ) http_proxy="127.0.0.1:3128"; https_proxy="127.0.0.1:3128";;
-    10.216.146.172  ) http_proxy="127.0.0.1:3128"; https_proxy="127.0.0.1:3128";;
-    10.216.146.190  ) http_proxy="127.0.0.1:3128"; https_proxy="127.0.0.1:3128";;
+    fps210un                ) http_proxy="http://127.0.0.1:3128"; https_proxy="http://127.0.0.1:3128";;
+    fps211un                ) http_proxy="http://127.0.0.1:3128"; https_proxy="http://127.0.0.1:3128";;
+    ubuntu-virtual-machine  ) http_proxy="http://127.0.0.1:3128"; https_proxy="http://127.0.0.1:3128";;
+    VLAS702                 ) http_proxy="http://127.0.0.1:3128"; https_proxy="http://127.0.0.1:3128";;
+    vlas722                 ) http_proxy="http://127.0.0.1:3128"; https_proxy="http://127.0.0.1:3128";;
+    10.218.231.210  ) http_proxy="http://127.0.0.1:3128"; https_proxy="http://127.0.0.1:3128";;
+    10.218.231.211  ) http_proxy="http://127.0.0.1:3128"; https_proxy="http://127.0.0.1:3128";;
+    10.218.231.107  ) http_proxy="http://127.0.0.1:3128"; https_proxy="http://127.0.0.1:3128";;
+    10.216.146.172  ) http_proxy="http://127.0.0.1:3128"; https_proxy="http://127.0.0.1:3128";;
+    10.216.146.190  ) http_proxy="http://127.0.0.1:3128"; https_proxy="http://127.0.0.1:3128";;
 esac
