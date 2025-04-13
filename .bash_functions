@@ -4,6 +4,25 @@
 #                          bash functions                             #
 #######################################################################
 
+quiltp() {
+    local args=("$@")
+    local name="${args[0]}"
+    local patch_dir="patches/$name"
+    local pc_dir=".pc/$name"
+
+    if [[ -z "$name" ]]; then
+        echo "Usage: quiltp <namespace> <quilt arguments...>" >&2
+        return 1
+    fi
+
+    if [[ ! -d "$patch_dir" ]]; then
+        echo "Error: Patch directory '$patch_dir' does not exist." >&2
+        return 1
+    fi
+
+    QUILT_PATCHES="$patch_dir" QUILT_PC="$pc_dir" quilt "${args[@]:1}"
+}
+
 bootstrap() {
     local args=("$@")
 
