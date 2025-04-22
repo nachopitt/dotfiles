@@ -53,3 +53,17 @@ bootstrap() {
 
     return 0
 }
+
+if [ -n "$TMUX" ]; then
+    function refresh {
+        eval $(tmux show-environment -s SSH_AUTH_SOCK)
+        eval $(tmux show-environment -s SSH_AGENT_PID)
+        eval $(tmux show-environment -s SSH_CONNECTION)
+
+        return 0
+    }
+else
+    function refresh {
+        return 0
+    }
+fi
