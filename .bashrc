@@ -241,3 +241,10 @@ end_agent()
 }
 trap end_agent EXIT
 set +x
+
+# fnm
+FNM_PATH="/home/uidr7643/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="$FNM_PATH:$PATH"
+  eval "`fnm env`"
+fi

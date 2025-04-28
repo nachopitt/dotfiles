@@ -187,6 +187,13 @@ Plug 'rhysd/conflict-marker.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
+" GitHub Copilot is an AI pair programmer tool that helps you write code faster and smarter.
+" Trained on billions of lines of public code, GitHub Copilot turns natural language prompts
+" including comments and method names into coding suggestions across dozens of languages.
+" Copilot.vim is a Vim/Neovim plugin for GitHub Copilot.
+" https://github.com/github/copilot.vim
+Plug 'github/copilot.vim'
+
 " Call plug#end to update &runtimepath and initialize the plugin system.
 " - It automatically executes `filetype plugin indent on` and `syntax enable`
 call plug#end()
