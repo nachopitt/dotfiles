@@ -194,6 +194,10 @@ Plug 'junegunn/fzf.vim'
 " https://github.com/github/copilot.vim
 Plug 'github/copilot.vim'
 
+" vim-airline
+" Lean & mean status/tabline for vim that's light as air.
+Plug 'vim-airline/vim-airline'
+
 " Call plug#end to update &runtimepath and initialize the plugin system.
 " - It automatically executes `filetype plugin indent on` and `syntax enable`
 call plug#end()
@@ -349,6 +353,10 @@ function! YadmDetectionIsTracked() abort
     return get(b:, 'yadm_tracked', 0) == 1
 endfunction
 
+function! YadmDetectionAirlineStatus() abort
+    return '[yadm]'
+endfunction
+
 function! YadmDetection() abort
     if exists('b:yadm_checked') && b:yadm_checked
         return
@@ -371,4 +379,19 @@ augroup YadmDetectionInit
     autocmd!
     autocmd BufReadPost * call YadmDetection()
 augroup END
+
+function! AirlineInit()
+    call airline#parts#define_function('yadmDetection','YadmDetectionAirlineStatus')
+    call airline#parts#define_condition('yadmDetection', 'YadmDetectionIsTracked()')
+
+    let g:airline_section_c = airline#section#create(['file', ' ', 'yadmDetection'])
+
+"    let g:airline#extensions#default#layout = [
+"        \ [ 'a', 'b', 'c' ],
+"        \ [ 'x', 'z', 'error', 'warning', 'y' ]
+"        \ ]
+endfunction
+
+autocmd User AirlineAfterInit call AirlineInit()
+
 " }}}
