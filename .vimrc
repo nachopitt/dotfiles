@@ -345,4 +345,30 @@ endfunction
 "-range=% default is whole file
 command! -range=% GremoveConflictMarkers <line1>,<line2>call RemoveConflictMarkers()
 
+function! YadmDetectionIsTracked() abort
+    return get(b:, 'yadm_tracked', 0) == 1
+endfunction
+
+function! YadmDetection() abort
+    if exists('b:yadm_checked') && b:yadm_checked
+        return
+    endif
+
+    let b:yadm_checked = 1
+
+    let l:filename = expand('%')
+    let l:cmd = 'yadm ls-files --error-unmatch ' . shellescape(l:filename)
+    let l:result = system(l:cmd)
+
+    if v:shell_error == 0
+        let b:yadm_tracked = 1
+    else
+        let b:yadm_tracked = 0
+    endif
+endfunction
+
+augroup YadmDetectionInit
+    autocmd!
+    autocmd BufReadPost * call YadmDetection()
+augroup END
 " }}}
