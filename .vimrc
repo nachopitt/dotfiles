@@ -278,14 +278,51 @@ augroup END
 " https://stackoverflow.com/questions/16740246/what-is-a-way-to-read-man-pages-in-vim-without-using-temporary-files
 runtime ftplugin/man.vim
 
+command! TrailingWhitespaceHighlightOn  call TrailingWhitespaceHighlightOn()
+command! TrailingWhitespaceHighlightOff call TrailingWhitespaceHighlightOff()
+
 " Removing trailing whitespaces
 " https://idie.ru/posts/vim-modern-cpp/
-highlight ExtraWhitespace ctermbg=red guibg=red
-match ExtraWhitespace /\s\+$/
-au BufWinEnter * match ExtraWhitespace /\s\+$/
-au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-au InsertLeave * match ExtraWhitespace /\s\+$/
-au BufWinLeave * call clearmatches()
+function! TrailingWhitespaceHighlightOn() abort
+    highlight TrailingWhitespaceHighlight ctermbg=red guibg=red
+
+    augroup TrailingWhitespaceHighlight
+        autocmd!
+        match TrailingWhitespaceHighlight /\s\+$/
+        autocmd InsertLeave * match TrailingWhitespaceHighlight /\s\+$/
+        autocmd InsertEnter * match TrailingWhitespaceHighlight /\s\+\%#\@<!$/
+        autocmd BufWinEnter * match TrailingWhitespaceHighlight /\s\+$/
+        autocmd BufWinLeave * call clearmatches()
+    augroup END
+endfunction
+
+function! TrailingWhitespaceHighlightOff() abort
+    augroup TrailingWhitespaceHighlight
+        autocmd!
+    augroup END
+
+    call clearmatches()
+endfunction
+
+function! TrailingWhitespaceHighlightToggle() abort
+    if exists("g:trailing_whitespace_highlight")
+        call TrailingWhitespaceHighlightOff()
+        unlet g:trailing_whitespace_highlight
+    else
+        call TrailingWhitespaceHighlightOn()
+        let g:trailing_whitespace_highlight = 1
+    endif
+endfunction
+
+function! TrailingWhitespaceNext() abort
+  " Search for trailing whitespace from the current line down
+  call search('\s\+$', 'W') " 'W' = wrap around the end of file
+endfunction
+
+autocmd VimEnter * call TrailingWhitespaceHighlightOn()
+
+" Do one search for trailing spaces, then n/N will cycle through
+nnoremap <silent> <leader>w /\s\+$<CR>
 
 " Accessing Standard Library documentation using cppman
 " https://idie.ru/posts/vim-modern-cpp/
