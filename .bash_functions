@@ -67,3 +67,35 @@ else
         return 0
     }
 fi
+
+vim() {
+    if [ $# -eq 0 ]; then
+        command vim
+        return
+    fi
+
+    for file in "$@"; do
+        if yadm ls-files --error-unmatch "$file" >/dev/null 2>&1; then
+            yadm enter vim "$@"
+            return
+        fi
+    done
+
+    command vim "$@"
+}
+
+nvim() {
+    if [ $# -eq 0 ]; then
+        command nvim
+        return
+    fi
+
+    for file in "$@"; do
+        if yadm ls-files --error-unmatch "$file" >/dev/null 2>&1; then
+            yadm enter nvim "$@"
+            return
+        fi
+    done
+
+    command nvim "$@"
+}
