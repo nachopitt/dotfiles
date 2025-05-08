@@ -55,7 +55,7 @@ bootstrap() {
 }
 
 if [ -n "$TMUX" ]; then
-    function refresh {
+    refresh() {
         eval $(tmux show-environment -s SSH_AUTH_SOCK)
         eval $(tmux show-environment -s SSH_AGENT_PID)
         eval $(tmux show-environment -s SSH_CONNECTION)
@@ -63,7 +63,7 @@ if [ -n "$TMUX" ]; then
         return 0
     }
 else
-    function refresh {
+    refresh() {
         return 0
     }
 fi
