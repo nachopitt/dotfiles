@@ -119,3 +119,34 @@ edit() {
 
     command edit "$@"
 }
+
+# Parse default.xml and print manifest path (or name) and git HEAD revision
+layer_revs() {
+    project_paths=$(grep "<project" default.xml | sed -nE 's/.*name="([^"]*)".*path="([^"]*)".*/\2/p; s/.*name="([^"]*)".*/\1/p')
+
+    for path in $project_paths; do
+        pushd yocto/$path > /dev/null
+
+        hash=$(git rev-parse HEAD)
+        printf "%-20s %s\n" "$path:" "$hash"
+
+        popd > /dev/null
+    done
+}
+
+# Parse default.xml and print manifest path (or name) and manifest revision
+manifest_revs() {
+    while read -r line; do
+        name=$(echo "$line" | sed -nE 's/.*name="([^"]*)".*/\1/p')
+        path=$(echo "$line" | sed -nE 's/.*path="([^"]*)".*/\1/p')
+        revision=$(echo "$line" | sed -nE 's/.*revision="([^"]*)".*/\1/p')
+
+        [ -z "$path" ] && path="$name"
+
+        printf "%-20s %s\n" "$path:" "$revision"
+    done < <(grep "<project" default.xml)
+}
+
+diff_manifest_layer_revs() {
+    vimdiff <(manifest_revs) <(layer_revs)
+}
