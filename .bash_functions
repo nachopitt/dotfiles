@@ -99,3 +99,23 @@ nvim() {
 
     command nvim "$@"
 }
+
+# This function is used to open a file in the default editor
+# If the file is not tracked by yadm, it will open in the default editor
+# If the file is tracked by yadm, it will open in the yadm editor
+# Usage: edit <file>
+edit() {
+    if [ $# -eq 0 ]; then
+        command edit
+        return
+    fi
+
+    for file in "$@"; do
+        if yadm ls-files --error-unmatch "$file" >/dev/null 2>&1; then
+            yadm enter edit "$@"
+            return
+        fi
+    done
+
+    command edit "$@"
+}
