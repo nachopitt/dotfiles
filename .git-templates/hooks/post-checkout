@@ -58,7 +58,7 @@ fi
 git config --local user.email "$email"
 git config --local user.name "$name"
 
-echo -e "\nLocal identity for ${PWD##*/} set to \"$name <$email>\""
+echo -e "Local identity for ${PWD##*/} set to \"$name <$email>\""
 
 if [[ -z $http_proxy ]]; then
   warn "Failed to detect proxy settings using ~/.git-clone-init. http_proxy and https_proxy"
@@ -68,5 +68,5 @@ fi
 git config --local http.proxy "$http_proxy"
 git config --local https.proxy "$https_proxy"
 
-echo -e "\nhttp_proxy settings for ${PWD##*/} set to \"$http_proxy\""
-echo -e "\nhttps_proxy settings for ${PWD##*/} set to \"$https_proxy\""
+echo -e "http_proxy settings for ${PWD##*/} set to \"$http_proxy\""
+echo -e "https_proxy settings for ${PWD##*/} set to \"$https_proxy\""
