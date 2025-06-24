@@ -8,6 +8,8 @@
     process = git-lfs filter-process
 [core]
     editor = vim
+    autocrlf = false
+    eol = lf
 [color]
     ui = auto
 [sendemail]
