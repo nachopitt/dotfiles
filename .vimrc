@@ -403,4 +403,17 @@ augroup SetFileFormat
   autocmd BufNewFile,BufRead *.bat,*.cmd setlocal fileformat=dos
 augroup END
 
+
+function! ToggleFileFormat()
+    if &fileformat ==# 'unix'
+        set fileformat=dos
+        echo "Switched to Windows (CRLF)"
+    else
+        set fileformat=unix
+        echo "Switched to Unix (LF)"
+    endif
+endfunction
+
+nnoremap <leader>ff :call ToggleFileFormat()<CR>
+
 " }}}
