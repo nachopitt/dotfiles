@@ -94,6 +94,9 @@ set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
 " The default value should be set ttimeoutlen=100
 set ttimeoutlen=100
 
+" Prefer unix (LF) when writing new files, but still recognize CRLF (dos) if present.
+set fileformats=unix,dos
+
 " }}}
 
 " PLUGINS ---------------------------------------------------------------- {{{
@@ -393,5 +396,11 @@ function! AirlineInit()
 endfunction
 
 autocmd User AirlineAfterInit call AirlineInit()
+
+" Sets the fileformat to dos (CRLF) specifically for batch files.
+augroup SetFileFormat
+  autocmd!
+  autocmd BufNewFile,BufRead *.bat,*.cmd setlocal fileformat=dos
+augroup END
 
 " }}}
