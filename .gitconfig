@@ -31,6 +31,10 @@
     path = ~/.gitconfig.conti
 [includeIf "hasconfig:remote.*.url:git@github-ix.int.automotive-wan.com*/**"]
     path = ~/.gitconfig.conti
+[includeIf "hasconfig:remote.*.url:https://github-ct.int.automotive-wan.com/**"]
+    path = ~/.gitconfig.conti
+[includeIf "hasconfig:remote.*.url:git@github-ct.int.automotive-wan.com*/**"]
+    path = ~/.gitconfig.conti
 [includeIf "gitdir:/home/"]
     path = ~/.gitconfig.linux
 [includeIf "gitdir:C:"]
@@ -39,3 +43,5 @@
     tool = vimdiff
 [merge]
     tool = vimdiff
+[safe]
+    directory = C:/Program Files/Continental Automotive/MBRT/KTMDP24/Host/KIBES/CgiStudio

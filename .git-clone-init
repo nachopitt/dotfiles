@@ -11,6 +11,8 @@ case "$url" in
     *//github-vni.geo.conti.de/*   ) email="Ignacio.2.Zamora@continental-corporation.com"; name="ZAMORA ESQUEDA IGNACIO ALBERTO (uidr7643)";;
     *@github-ix.int.automotive-wan.com:*    ) email="Ignacio.2.Zamora@continental-corporation.com"; name="ZAMORA ESQUEDA IGNACIO ALBERTO (uidr7643)";;
     *//github-ix.int.automotive-wan.com/*   ) email="Ignacio.2.Zamora@continental-corporation.com"; name="ZAMORA ESQUEDA IGNACIO ALBERTO (uidr7643)";;
+    *@github-ct.int.automotive-wan.com:*    ) email="Ignacio.2.Zamora@continental-corporation.com"; name="ZAMORA ESQUEDA IGNACIO ALBERTO (uidr7643)";;
+    *//github-ct.int.automotive-wan.com/*   ) email="Ignacio.2.Zamora@continental-corporation.com"; name="ZAMORA ESQUEDA IGNACIO ALBERTO (uidr7643)";;
 esac
 
 case "$host" in
