@@ -263,6 +263,65 @@ nnoremap gdl :diffget //3<CR>
 " https://vim.fandom.com/wiki/Search_for_visually_selected_text
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
+" ==========================================================================
+" Seamless Paste Setup with Last-Paste Selection
+"
+" Marks:
+"   `[ = start of last paste
+"   `] = end of last paste
+" ==========================================================================
+
+" ----------------------
+" Reselect last paste using <leader>gp / <leader>gP
+" ----------------------
+" Reselect last paste (cursor at end)
+nnoremap <leader>gp :normal! `[v`]<CR>
+xnoremap <leader>gp :normal! `[v`]<CR>
+onoremap <leader>gp :normal! `[v`]<CR>
+
+" Reselect last paste (cursor at start)
+nnoremap <leader>gP :normal! `]v`[<CR>
+xnoremap <leader>gP :normal! `]v`[<CR>
+onoremap <leader>gP :normal! `]v`[<CR>
+
+" Optional: undo last paste and reselect
+function! SafeUndoAndReselect()
+  if exists("'[") && exists("']")
+    try
+      normal! u
+      normal! `[v`]
+    catch /E464:/ " E464 is the error code for "Already at oldest change"
+      " This error is expected on startup, so we can ignore it.
+    endtry
+  endif
+endfunction
+
+nnoremap <leader>p :call SafeUndoAndReselect()<CR>
+
+" ----------------------
+" Insert mode Shift+Insert: paste from system clipboard and track `[ ]` marks
+" ----------------------
+inoremap <S-Insert> <C-R>+
+
+" ----------------------
+" Custom Command to Clean Pasted Text
+" ----------------------
+" Function to clean text within a visual selection (or a specified range)
+function! CleanSelectedText() range
+    " Remove line numbers
+    " The 'range' keyword makes a:firstline and a:lastline available
+    execute 'silent ' . a:firstline . ',' . a:lastline . 's/^\s*\d\+\s*//'
+
+    " Remove leading whitespace (with 'e' flag to prevent error if no match)
+    execute 'silent ' . a:firstline . ',' . a:lastline . 's/^\s\+//e'
+endfunction
+
+" Map a key to call this function
+" nnoremap for Normal mode (after selecting with gv or <leader>gp/gP)
+" xnoremap for Visual mode (if you manually select a range)
+nnoremap <leader>cp :call CleanSelectedText()<CR>
+xnoremap <leader>cp :call CleanSelectedText()<CR>
+
 " }}}
 
 " VIMSCRIPT -------------------------------------------------------------- {{{
