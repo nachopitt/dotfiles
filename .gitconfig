@@ -43,5 +43,3 @@
     tool = vimdiff
 [merge]
     tool = vimdiff
-[safe]
-    directory = C:/Program Files/Continental Automotive/MBRT/KTMDP24/Host/KIBES/CgiStudio
