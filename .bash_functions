@@ -150,3 +150,23 @@ manifest_revs() {
 diff_manifest_layer_revs() {
     vimdiff <(manifest_revs) <(layer_revs)
 }
+
+
+check_git_status_in_subdirs() {
+    for dir in */; do
+        if [ -d "$dir/.git" ]; then
+            echo "Checking status in $dir"
+            (cd "$dir" && git status)
+            echo ""
+        fi
+    done
+}
+
+rgf() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: rgf <pattern> [directory]" >&2
+        return 1
+    fi
+
+    rg --files --no-ignore --hidden --binary "${2:-.}" | rg "$1"
+}
