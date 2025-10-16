@@ -29,9 +29,13 @@
     path = ~/.gitconfig.conti
 [includeIf "hasconfig:remote.*.url:https://github-ix.int.automotive-wan.com/**"]
     path = ~/.gitconfig.conti
+[includeIf "hasconfig:remote.*.url:ssh://git@github-ix.int.automotive-wan.com*/**"]
+    path = ~/.gitconfig.conti
 [includeIf "hasconfig:remote.*.url:git@github-ix.int.automotive-wan.com*/**"]
     path = ~/.gitconfig.conti
 [includeIf "hasconfig:remote.*.url:https://github-ct.int.automotive-wan.com/**"]
+    path = ~/.gitconfig.conti
+[includeIf "hasconfig:remote.*.url:ssh://git@github-ct.int.automotive-wan.com*/**"]
     path = ~/.gitconfig.conti
 [includeIf "hasconfig:remote.*.url:git@github-ct.int.automotive-wan.com*/**"]
     path = ~/.gitconfig.conti
