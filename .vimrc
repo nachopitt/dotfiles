@@ -195,7 +195,7 @@ Plug 'junegunn/fzf.vim'
 " including comments and method names into coding suggestions across dozens of languages.
 " Copilot.vim is a Vim/Neovim plugin for GitHub Copilot.
 " https://github.com/github/copilot.vim
-Plug 'github/copilot.vim'
+" Plug 'github/copilot.vim'
 
 " vim-airline
 " Lean & mean status/tabline for vim that's light as air.
@@ -338,6 +338,13 @@ highlight! link DiffText MatchParen
 augroup filetype_vim
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
+augroup END
+
+" Keep vim-sleuth enabled globally, but pin sh/bash/zsh buffers to spaces.
+" This avoids accidental tab reindent when running = on shell files.
+augroup ShellIndentOverride
+  autocmd!
+  autocmd FileType sh,bash,zsh setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4
 augroup END
 
 " Man page viewer
