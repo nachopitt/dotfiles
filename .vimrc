@@ -322,6 +322,13 @@ endfunction
 nnoremap <leader>cp :call CleanSelectedText()<CR>
 xnoremap <leader>cp :call CleanSelectedText()<CR>
 
+" ==============================================================================
+" Convert Windows paths to Unix paths in Visual Mode
+" Shortcut: Select text, then press \u
+" Action: Replaces \ with /, and converts drive letters (C:) to lowercase (/c/)
+" ==============================================================================
+xnoremap \u :s/\\/\//g<CR>gv:s/\([A-Za-z]\):/\/\L\1/g<CR>
+
 " }}}
 
 " VIMSCRIPT -------------------------------------------------------------- {{{
