@@ -310,10 +310,10 @@ inoremap <S-Insert> <C-R>+
 function! CleanSelectedText() range
     " Remove line numbers
     " The 'range' keyword makes a:firstline and a:lastline available
-    execute 'silent ' . a:firstline . ',' . a:lastline . 's/^\s*\d\+\s*//'
+    silent! execute a:firstline . ',' . a:lastline . 's/^\s*\%(\d\+\s\+\)\?//g'
 
     " Remove leading whitespace (with 'e' flag to prevent error if no match)
-    execute 'silent ' . a:firstline . ',' . a:lastline . 's/^\s\+//e'
+    silent! execute a:firstline . ',' . a:lastline . 's/^\s\+//g'
 endfunction
 
 " Map a key to call this function
