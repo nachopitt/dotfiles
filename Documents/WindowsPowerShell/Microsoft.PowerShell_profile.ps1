@@ -4,6 +4,80 @@ function git-config {
 
 Set-Alias -Name config -Value git-config
 
+function git-branch-name {
+    param(
+        [Parameter(ValueFromRemainingArguments = $true)]
+        [string[]]$Arguments
+    )
+
+    # 1. Get input (arguments or clipboard)
+    $inputStr = $null
+    if ($Arguments.Length -gt 0) {
+        $inputStr = $Arguments -join " "
+    } else {
+        try {
+            $inputStr = Get-Clipboard -Raw
+        } catch {
+            Write-Error "Could not read from clipboard."
+            return
+        }
+    }
+
+    if ([string]::IsNullOrEmpty($inputStr)) {
+        Write-Error "Error: No input provided and clipboard is empty."
+        return
+    }
+
+    # 2. Extract JIRA ticket (case-insensitive: e.g. ABC-1234 or JIRA-99)
+    $jiraRegex = '\b([a-zA-Z]+-\d+)\b'
+    $jiraTicket = $null
+    $cleanedTitle = $inputStr
+
+    if ($inputStr -match $jiraRegex) {
+        $jiraTicket = $Matches[1].ToUpper()
+        # Remove JIRA ticket from description to avoid duplicates
+        $escapedTicket = [regex]::Escape($Matches[1])
+        $cleanedTitle = $inputStr -replace $escapedTicket, ""
+    }
+
+    # 3. Strip brackets, colons, punctuation and replace with spaces
+    $cleanedTitle = $cleanedTitle -replace '[^a-zA-Z0-9\s]', ' '
+
+    # 4. Lowercase only
+    $cleanedTitle = $cleanedTitle.ToLower()
+
+    # 5. Split by spaces and join with dashes
+    $words = $cleanedTitle.Split(" `t`n`r", [System.StringSplitOptions]::RemoveEmptyEntries)
+    $description = $words -join "-"
+
+    # 6. Format branch name: description/JIRA-TICKET
+    if ($jiraTicket) {
+        $branchName = "$description/$jiraTicket"
+    } else {
+        $branchName = $description
+    }
+
+    # Clean up trailing/leading dashes/slashes and multiple consecutive dashes/slashes
+    $branchName = $branchName -replace '-+', '-'
+    $branchName = $branchName -replace '/+', '/'
+    $branchName = $branchName.Trim("-").Trim("/")
+
+    if ([string]::IsNullOrEmpty($branchName)) {
+        Write-Error "Error: Could not format a valid branch name from the input."
+        return
+    }
+
+    # Copy the formatted branch name back to the clipboard
+    try {
+        Set-Clipboard -Value $branchName
+    } catch {
+        # Ignore clipboard write issues
+    }
+
+    # Print the final formatted branch name
+    Write-Output $branchName
+}
+
 # SIG # Begin signature block
 # MIIFlAYJKoZIhvcNAQcCoIIFhTCCBYECAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR

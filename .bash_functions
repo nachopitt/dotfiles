@@ -170,3 +170,102 @@ rgf() {
 
     rg --files --no-ignore --hidden --binary "${2:-.}" | rg "$1"
 }
+
+# Helper: Get clipboard content across platforms
+_git_branch_get_clipboard() {
+    if command -v pbpaste >/dev/null 2>&1; then
+        pbpaste
+    elif command -v wl-paste >/dev/null 2>&1; then
+        wl-paste
+    elif command -v xclip >/dev/null 2>&1; then
+        xclip -selection clipboard -o
+    elif [ -e /dev/clipboard ]; then
+        cat /dev/clipboard
+    elif command -v powershell.exe >/dev/null 2>&1; then
+        powershell.exe -NoProfile -Command "Get-Clipboard" 2>/dev/null | tr -d '\r'
+    else
+        echo ""
+    fi
+}
+
+# Helper: Set clipboard content across platforms
+_git_branch_set_clipboard() {
+    local text="$1"
+    if command -v pbcopy >/dev/null 2>&1; then
+        echo -n "$text" | pbcopy
+    elif command -v wl-copy >/dev/null 2>&1; then
+        echo -n "$text" | wl-copy
+    elif command -v xclip >/dev/null 2>&1; then
+        echo -n "$text" | xclip -selection clipboard
+    elif [ -e /dev/clipboard ]; then
+        echo -n "$text" > /dev/clipboard
+    elif command -v clip.exe >/dev/null 2>&1; then
+        echo -n "$text" | clip.exe
+    fi
+}
+
+# Main function you can call directly
+git-branch-name() {
+    local input_str
+
+    # 1. Get input (argument or clipboard)
+    if [ $# -gt 0 ]; then
+        input_str="$*"
+    else
+        input_str=$(_git_branch_get_clipboard)
+    fi
+
+    # Strip Windows carriage returns if any
+    input_str=$(echo "$input_str" | tr -d '\r')
+
+    if [ -z "$input_str" ]; then
+        echo "Error: No input provided and clipboard is empty." >&2
+        return 1
+    fi
+
+    # 2. Extract JIRA ticket (case-insensitive: e.g. ABC-1234 or JIRA-99)
+    local jira_ticket
+    jira_ticket=$(echo "$input_str" | grep -oEi '\b[a-zA-Z]+-[0-9]+\b' | head -n 1 | tr 'a-z' 'A-Z')
+
+    # 3. Clean description: remove the Jira ticket, strip non-alphanumeric, convert to lower, join with dashes
+    local cleaned_str
+    if [ -n "$jira_ticket" ]; then
+        # Remove JIRA ticket from description (case-insensitive)
+        cleaned_str=$(echo "$input_str" | sed -E "s/\\b$jira_ticket\\b//I")
+    else
+        cleaned_str="$input_str"
+    fi
+
+    # Replace non-alphanumeric with spaces
+    cleaned_str=$(echo "$cleaned_str" | sed -E 's/[^a-zA-Z0-9]+/ /g')
+
+    # Lowercase
+    cleaned_str=$(echo "$cleaned_str" | tr 'A-Z' 'a-z')
+
+    # Trim leading and trailing spaces
+    cleaned_str=$(echo "$cleaned_str" | sed -E 's/^ +//; s/ +$//')
+
+    # Replace remaining spaces with dashes
+    local description
+    description=$(echo "$cleaned_str" | tr ' ' '-')
+
+    # 4. Construct final branch name
+    local branch_name
+    if [ -n "$jira_ticket" ]; then
+        branch_name="${description}/${jira_ticket}"
+    else
+        branch_name="${description}"
+    fi
+
+    # Clean multiple dashes/slashes, leading/trailing dashes/slashes
+    branch_name=$(echo "$branch_name" | sed -E 's/-+/-/g' | sed -E 's/\/+/\//g' | sed -E 's/^[-/]+//; s/[-/]+$//')
+
+    if [ -z "$branch_name" ]; then
+        echo "Error: Could not format a valid branch name from the input." >&2
+        return 1
+    fi
+
+    # 5. Copy back to clipboard and output
+    _git_branch_set_clipboard "$branch_name"
+    echo "$branch_name"
+}

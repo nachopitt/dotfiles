@@ -1,0 +1,6 @@
+# Global text auto-detection
+* text=auto
+
+# Force Windows batch scripts to always use CRLF line endings
+*.bat text eol=crlf
+*.cmd text eol=crlf
