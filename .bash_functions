@@ -195,12 +195,12 @@ _git_branch_set_clipboard() {
         echo -n "$text" | pbcopy
     elif command -v wl-copy >/dev/null 2>&1; then
         echo -n "$text" | wl-copy
-    elif command -v xclip >/dev/null 2>&1; then
-        echo -n "$text" | xclip -selection clipboard
-    elif [ -e /dev/clipboard ]; then
-        echo -n "$text" > /dev/clipboard
     elif command -v clip.exe >/dev/null 2>&1; then
         echo -n "$text" | clip.exe
+    elif command -v xclip >/dev/null 2>&1; then
+        printf '%s' "$text" | xclip -selection clipboard >/dev/null 2>&1 &
+    elif [ -e /dev/clipboard ]; then
+        echo -n "$text" > /dev/clipboard
     fi
 }
 
@@ -268,4 +268,294 @@ git-branch-name() {
     # 5. Copy back to clipboard and output
     _git_branch_set_clipboard "$branch_name"
     echo "$branch_name"
+}
+
+password-generator() {
+    local length=10
+    local lower_count=""
+    local upper_count=""
+    local number_count=""
+    local special_count=""
+    local original_lower_count
+    local original_upper_count
+    local original_number_count
+    local original_special_count
+    local start_with=""
+    local explicit_counts=false
+    local exact_mode=false
+    local copy_to_clipboard=false
+    local lower_chars='abcdefghijklmnopqrstuvwxyz'
+    local upper_chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    local number_chars='0123456789'
+    local special_chars='!@#$%^&*()_+=-?/'
+    local enabled_lower=true
+    local enabled_upper=true
+    local enabled_number=true
+    local enabled_special=true
+    local required_count
+    local filler_count
+    local remaining_length
+    local password=""
+    local body=""
+    local combined_pool=""
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            -l|--length)
+                length="$2"
+                shift 2
+                ;;
+            -c|--chars|--lower)
+                lower_count="$2"
+                explicit_counts=true
+                shift 2
+                ;;
+            -u|--CHARS|--upper)
+                upper_count="$2"
+                explicit_counts=true
+                shift 2
+                ;;
+            -d|--numbers|--digits)
+                number_count="$2"
+                explicit_counts=true
+                shift 2
+                ;;
+            -s|--special|--special-chars)
+                special_count="$2"
+                explicit_counts=true
+                shift 2
+                ;;
+            --start-with)
+                start_with="$2"
+                shift 2
+                ;;
+            -x|--exact)
+                exact_mode=true
+                shift
+                ;;
+            -p|--copy)
+                copy_to_clipboard=true
+                shift
+                ;;
+            -h|--help)
+                cat <<'EOF'
+Usage: password-generator [options]
+
+Options:
+  -l, --length N           Total password length. Default: 10
+  -c, --chars N            Minimum lowercase letters to include
+      --lower N            Alias for --chars
+  -u, --CHARS N            Minimum uppercase letters to include
+      --upper N            Alias for --CHARS
+  -d, --numbers N          Minimum digits to include
+      --digits N           Alias for --numbers
+  -s, --special N          Minimum special characters to include
+      --special-chars N    Alias for --special
+      --start-with TYPE    Force first character class: char, CHAR, number, special
+  -x, --exact              Require exact requested counts with no filler characters
+  -p, --copy               Copy the generated password to the clipboard
+  -h, --help               Show this help text
+
+Examples:
+  password-generator --length 20 -c 4 -u 4 -d 4 -s 2
+  password-generator --length 16 -d 6 -s 2 --start-with CHAR --copy
+  password-generator --length 10 -c 4 -u 2 -d 2 -s 2 --exact
+EOF
+                return 0
+                ;;
+            *)
+                echo "Error: Unknown option '$1'." >&2
+                return 1
+                ;;
+        esac
+    done
+
+    for value_name in length lower_count upper_count number_count special_count; do
+        local value="${!value_name}"
+
+        if [[ -n "$value" && ! "$value" =~ ^[0-9]+$ ]]; then
+            echo "Error: ${value_name} must be a non-negative integer." >&2
+            return 1
+        fi
+    done
+
+    if [[ "$length" -lt 1 ]]; then
+        echo "Error: length must be at least 1." >&2
+        return 1
+    fi
+
+    if $explicit_counts; then
+        lower_count=${lower_count:-0}
+        upper_count=${upper_count:-0}
+        number_count=${number_count:-0}
+        special_count=${special_count:-0}
+
+        original_lower_count=$lower_count
+        original_upper_count=$upper_count
+        original_number_count=$number_count
+        original_special_count=$special_count
+
+        enabled_lower=false
+        enabled_upper=false
+        enabled_number=false
+        enabled_special=false
+
+        [[ "$lower_count" -gt 0 ]] && enabled_lower=true
+        [[ "$upper_count" -gt 0 ]] && enabled_upper=true
+        [[ "$number_count" -gt 0 ]] && enabled_number=true
+        [[ "$special_count" -gt 0 ]] && enabled_special=true
+    else
+        lower_count=0
+        upper_count=0
+        number_count=0
+        special_count=0
+        original_lower_count=0
+        original_upper_count=0
+        original_number_count=0
+        original_special_count=0
+    fi
+
+    if $exact_mode && ! $explicit_counts; then
+        echo "Error: --exact requires explicit character counts." >&2
+        return 1
+    fi
+
+    case "$start_with" in
+        "")
+            ;;
+        char)
+            enabled_lower=true
+            ;;
+        CHAR)
+            enabled_upper=true
+            ;;
+        number)
+            enabled_number=true
+            ;;
+        special)
+            enabled_special=true
+            ;;
+        *)
+            echo "Error: --start-with must be one of: char, CHAR, number, special." >&2
+            return 1
+            ;;
+    esac
+
+    if $exact_mode; then
+        case "$start_with" in
+            char)
+                [[ "$original_lower_count" -eq 0 ]] && {
+                    echo "Error: --exact cannot use --start-with char unless lowercase count is greater than 0." >&2
+                    return 1
+                }
+                ;;
+            CHAR)
+                [[ "$original_upper_count" -eq 0 ]] && {
+                    echo "Error: --exact cannot use --start-with CHAR unless uppercase count is greater than 0." >&2
+                    return 1
+                }
+                ;;
+            number)
+                [[ "$original_number_count" -eq 0 ]] && {
+                    echo "Error: --exact cannot use --start-with number unless digit count is greater than 0." >&2
+                    return 1
+                }
+                ;;
+            special)
+                [[ "$original_special_count" -eq 0 ]] && {
+                    echo "Error: --exact cannot use --start-with special unless special count is greater than 0." >&2
+                    return 1
+                }
+                ;;
+        esac
+    fi
+
+    if ! $enabled_lower && ! $enabled_upper && ! $enabled_number && ! $enabled_special; then
+        echo "Error: No character groups enabled." >&2
+        return 1
+    fi
+
+    combined_pool=""
+    $enabled_lower && combined_pool+="$lower_chars"
+    $enabled_upper && combined_pool+="$upper_chars"
+    $enabled_number && combined_pool+="$number_chars"
+    $enabled_special && combined_pool+="$special_chars"
+
+    remaining_length=$length
+
+    if [[ -n "$start_with" ]]; then
+        case "$start_with" in
+            char)
+                password+=$(_password_generator_random_char "$lower_chars")
+                [[ "$lower_count" -gt 0 ]] && ((lower_count--))
+                ;;
+            CHAR)
+                password+=$(_password_generator_random_char "$upper_chars")
+                [[ "$upper_count" -gt 0 ]] && ((upper_count--))
+                ;;
+            number)
+                password+=$(_password_generator_random_char "$number_chars")
+                [[ "$number_count" -gt 0 ]] && ((number_count--))
+                ;;
+            special)
+                password+=$(_password_generator_random_char "$special_chars")
+                [[ "$special_count" -gt 0 ]] && ((special_count--))
+                ;;
+        esac
+
+        ((remaining_length--))
+    fi
+
+    required_count=$((lower_count + upper_count + number_count + special_count))
+
+    if [[ "$required_count" -gt "$remaining_length" ]]; then
+        echo "Error: required character counts exceed the requested password length." >&2
+        return 1
+    fi
+
+    body+=$(_password_generator_build_chunk "$lower_chars" "$lower_count")
+    body+=$(_password_generator_build_chunk "$upper_chars" "$upper_count")
+    body+=$(_password_generator_build_chunk "$number_chars" "$number_count")
+    body+=$(_password_generator_build_chunk "$special_chars" "$special_count")
+
+    filler_count=$((remaining_length - required_count))
+
+    if $exact_mode && [[ "$filler_count" -ne 0 ]]; then
+        echo "Error: --exact requires length to match the requested character counts exactly." >&2
+        return 1
+    fi
+
+    body+=$(_password_generator_build_chunk "$combined_pool" "$filler_count")
+
+    if [[ -n "$body" ]]; then
+        password+=$(printf '%s' "$body" | fold -w1 | shuf | tr -d '\n')
+    fi
+
+    if $copy_to_clipboard; then
+        _git_branch_set_clipboard "$password"
+    fi
+
+    echo "$password"
+}
+
+_password_generator_random_char() {
+    local char_pool="$1"
+    local pool_length="${#char_pool}"
+    local random_number
+
+    random_number=$(od -An -N4 -tu4 /dev/urandom | tr -d ' ')
+    printf '%s' "${char_pool:random_number % pool_length:1}"
+}
+
+_password_generator_build_chunk() {
+    local char_pool="$1"
+    local count="$2"
+    local chunk=""
+    local i
+
+    for ((i = 0; i < count; i++)); do
+        chunk+=$(_password_generator_random_char "$char_pool")
+    done
+
+    printf '%s' "$chunk"
 }
