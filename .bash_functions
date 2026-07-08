@@ -270,6 +270,13 @@ git-branch-name() {
     echo "$branch_name"
 }
 
+# Bash function to generate a random password with specified criteria
+# Based on:
+# password-generator() {
+#     local password=$(tr -dc 'A-Za-z0-9!¡¿?"#$%&/()=*{}[]-_' < /dev/urandom | head -c 10)
+#     echo $password
+# }
+
 password-generator() {
     local length=10
     local lower_count=""
