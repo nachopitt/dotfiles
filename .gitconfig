@@ -39,6 +39,8 @@
     path = ~/.gitconfig.conti
 [includeIf "hasconfig:remote.*.url:git@github-ct.int.automotive-wan.com*/**"]
     path = ~/.gitconfig.conti
+[includeIf "hasconfig:remote.*.url:ssh://paccar-gerrit:29418/**"]
+    path = ~/.gitconfig.elektrobit
 [includeIf "gitdir:/home/"]
     path = ~/.gitconfig.linux
 [includeIf "gitdir:C:"]
